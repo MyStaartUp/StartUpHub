@@ -35,4 +35,5 @@ Thumbs.db
 # Others
 *.local
 
+.npmrc
 .vercel
