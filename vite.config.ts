@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000, // Lancez le serveur sur le port 3000
-    open: true, // Ouvre le projet automatiquement dans le navigateur
+    open: false, // Ouvre le projet automatiquement dans le navigateur
     host: true, // Autorise l'accès via l'adresse réseau locale
   },
   resolve: {
