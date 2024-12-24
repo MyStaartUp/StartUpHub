@@ -1,8 +1,10 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from '@/lib/auth/AuthProvider';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Home } from '@/pages/Home';
+import { LoginPage } from '@/pages/auth/LoginPage';
+import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { InvestorPage } from '@/pages/InvestorPage';
 import { StartupPage } from '@/pages/StartupPage';
 import { StartupDetailsPage } from '@/pages/StartupDetailsPage';
@@ -19,6 +21,8 @@ export default function App() {
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
               <Route path="/investors" element={<InvestorPage />} />
               <Route path="/startups" element={<StartupPage />} />
               <Route path="/startups/:id" element={<StartupDetailsPage />} />
