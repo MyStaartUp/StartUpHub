@@ -10,6 +10,7 @@ import { StartupPage } from '@/pages/StartupPage';
 import { StartupDetailsPage } from '@/pages/StartupDetailsPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { RegisterStartupPage } from '@/pages/RegisterStartupPage';
+import { AuthProvider } from './features/auth/components/AuthProvider';
 
 export default function App() {
   return (

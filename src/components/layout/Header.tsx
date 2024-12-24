@@ -1,30 +1,38 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Rocket, Search, User } from 'lucide-react';
+
+const navigations = [
+  {name: 'Accueil', href: '/'},
+  {name: 'Découvrir les startups', href: '/startups'},
+  {name: 'Investisseurs', href: '/investors'},
+  {name: 'Devenir une startup', href: '/register-startup'},
+  {name: 'A propos', href: '/about'},
+]
 
 export function Header() {
   return (
     <header className="bg-white border-b border-gray-200">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <Rocket className="h-8 w-8 text-indigo-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">StartUpHub</span>
+              <span className="ml-2 text-xl font-bold text-indigo-600">StartUpHub</span>
             </Link>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link to="/startups" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900">
-                Découvrir les startups
-              </Link>
-              <Link to="/investors" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900">
-                Investisseurs
-              </Link>
-              <Link to="/register-startup" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900">
-                Devenir une startup
-              </Link>
-              <Link to="/about" className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900">
-                À propos
-              </Link>
+              {navigations.map((item) => (
+                <NavLink 
+                key={item.name}
+                to={item.href} 
+                className={({isActive}) => 
+                  `inline-flex items-center px-1 text-sm font-medium ${
+                    isActive ? 'text-indigo-600' : 'text-gray-500 hover:text-indigo-600'
+                  }`
+                }>
+                {item.name}
+              </NavLink>
+              ))}
             </div>
           </div>
           <div className="flex items-center">
