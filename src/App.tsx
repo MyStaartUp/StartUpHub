@@ -10,6 +10,8 @@ import { StartupPage } from '@/pages/StartupPage';
 import { StartupDetailsPage } from '@/pages/StartupDetailsPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { RegisterStartupPage } from '@/pages/RegisterStartupPage';
+import { DashboardPage } from '@/pages/DashboardPage';
+import { PrivateRoute } from '@/components/auth/PrivateRoute';
 
 export default function App() {
   return (
@@ -26,7 +28,22 @@ export default function App() {
               <Route path="/startups" element={<StartupPage />} />
               <Route path="/startups/:id" element={<StartupDetailsPage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/register-startup" element={<RegisterStartupPage />} />
+              <Route 
+                path="/dashboard" 
+                element={
+                  <PrivateRoute>
+                    <DashboardPage />
+                  </PrivateRoute>
+                } 
+              />
+              <Route 
+                path="/register-startup" 
+                element={
+                  <PrivateRoute>
+                    <RegisterStartupPage />
+                  </PrivateRoute>
+                } 
+              />
             </Routes>
           </main>
           <Footer />

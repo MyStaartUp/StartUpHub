@@ -25,27 +25,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
+    return data;
   };
 
   const signUp = async (email: string, password: string) => {
-    const { data: authData, error: authError } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
-    if (authError) throw authError;
+    if (error) throw error;
 
-    if (authData.user) {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          user_id: authData.user.id,
-          type: 'public',
-        });
-      
-      if (profileError) throw profileError;
+    // Si l'inscription réussit mais que data.user est null, on lance une erreur
+    if (!data.user) {
+      throw new Error("L'inscription a réussi mais les données utilisateur sont manquantes");
     }
+
+    // Création du profil utilisateur
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert({
+        user_id: data.user.id,
+        type: 'public', // Type par défaut, sera mis à jour lors de la sélection du rôle
+      });
+    
+    if (profileError) throw profileError;
+
+    return data;
   };
 
   const signOut = async () => {

@@ -1,9 +1,20 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { RegisterForm } from '@/components/auth/RegisterForm';
+import { RoleSelection } from '@/components/auth/RoleSelection';
 import { Card } from '@/components/common/Card';
 import { UserPlus } from 'lucide-react';
 
 export function RegisterPage() {
+  const [step, setStep] = useState<'form' | 'role'>('form');
+  const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const handleRegistrationSuccess = (uid: string, userEmail: string) => {
+    setUserId(uid);
+    setEmail(userEmail);
+    setStep('role');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -11,20 +22,30 @@ export function RegisterPage() {
           <UserPlus className="h-12 w-12 text-indigo-600" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Créer un compte
+          {step === 'form' ? 'Créer un compte' : 'Choisir votre profil'}
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Déjà inscrit ?{' '}
-          <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-            Connectez-vous
-          </Link>
-        </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <Card className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <RegisterForm />
-        </Card>
+        {step === 'form' ? (
+          <Card className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <RegisterForm onSuccess={handleRegistrationSuccess} />
+          </Card>
+        ) : (
+          <RoleSelection onSelect={async (role) => {
+            if (userId) {
+              // Mettre à jour le profil avec le rôle sélectionné
+              await updateUserProfile(userId, { type: role });
+              // Rediriger vers la page appropriée
+              const redirectMap = {
+                public: '/dashboard',
+                startup: '/register-startup',
+                investor: '/investor-dashboard'
+              };
+              window.location.href = redirectMap[role];
+            }
+          }} />
+        )}
       </div>
     </div>
   );

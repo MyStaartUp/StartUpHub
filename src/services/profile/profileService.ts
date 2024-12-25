@@ -2,33 +2,27 @@ import { supabase } from '../supabase/client';
 import type { Profile } from '@/types/profile';
 
 export const profileService = {
-  async getProfile(userId: string) {
-    const { data, error } = await supabase
+  async updateProfile(userId: string, data: Partial<Profile>) {
+    const { data: profile, error } = await supabase
       .from('profiles')
-      .select('*')
-      .eq('user_id', userId)
-      .single();
-
-    if (error) throw error;
-    return data;
-  },
-
-  async updateProfile(userId: string, profile: Partial<Profile>) {
-    const { data, error } = await supabase
-      .from('profiles')
-      .update(profile)
+      .update(data)
       .eq('user_id', userId)
       .select()
       .single();
 
     if (error) throw error;
-    return data;
+    return profile;
   },
 
-  async createProfile(profile: Omit<Profile, 'id' | 'created_at' | 'updated_at'>) {
+  async createProfile(userId: string, type: 'public' | 'startup' | 'investor') {
     const { data, error } = await supabase
       .from('profiles')
-      .insert(profile)
+      .insert({
+        user_id: userId,
+        type,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
       .select()
       .single();
 
