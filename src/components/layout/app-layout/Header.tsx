@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Rocket, Search, User, LogOut } from 'lucide-react';
 import { useAuth } from '@/lib/auth/AuthContext';

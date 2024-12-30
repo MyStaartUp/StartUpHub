@@ -21,8 +21,8 @@ export function RegisterPage() {
         <div className="flex justify-center">
           <UserPlus className="h-12 w-12 text-indigo-600" />
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          {step === 'form' ? 'Créer un compte' : 'Choisir votre profil'}
+        <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">
+          {step === 'form' ? 'Inscrivez-vous pour transformer vos idées en opportunités' : 'Choisir votre profil'}
         </h2>
       </div>
 

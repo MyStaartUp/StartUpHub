@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth/AuthContext';
-import { Button } from '@/components/common/Button';
+import {Input, Button, Alert} from '@/components/common';
 import { Mail, Lock } from 'lucide-react';
 
 export function LoginForm() {
@@ -15,59 +15,74 @@ export function LoginForm() {
     e.preventDefault();
     setError(null);
 
+    // Vérifie si les champs sont remplis
+    if (!email.trim()) {
+      setError('Veuillez saisir votre email');
+      return;
+    }
+
+    if (!password.trim()) {
+      setError('Veuillez saisir votre mot de passe');
+      return;
+    }
+
+    // Tentative de connexion
     try {
       await signIn(email, password);
       navigate('/dashboard');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erreur de connexion');
+    } catch (err: unknown) {
+      // Gestion des erreurs
+      // ToDo: Améliorer la gestion des erreurs. Ca évitera d'avoir les erreurs en anglais
+      let errorMessage = 'Erreur de connexion';
+
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (err && typeof err === 'object' && 'status' in err && err.status === 400) {
+        errorMessage = 'Informations d\'identification invalides';
+      }
+
+      setError(errorMessage);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="bg-red-50 text-red-700 p-4 rounded-md">
-          {error}
-        </div>
+        Alert({message: error, type: 'danger'})
       )}
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <div className="mt-1 relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-            required
-          />
-        </div>
-      </div>
+      {/* Utilisation d'un component input réutilisable */}
+      <Input
+        id='email'
+        type='email'
+        label='Email'
+        value={email}
+        icon={<Mail />}
+        onChange={(e) => setEmail(e.target.value)}
+      ></Input>
 
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-          Mot de passe
-        </label>
-        <div className="mt-1 relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-            required
-          />
-        </div>
-      </div>
+      <Input
+        id='password'
+        type='password'
+        label='Mot de passe'
+        value={password}
+        icon={<Lock />}
+        onChange={(e) => setPassword(e.target.value)}
+        className='mb-2'
+      ></Input>
+
+      <Link to="/forgot-password" className='text-indigo-600 hover:text-indigo-500 font-semibold'>Mot de passe oublié ?</Link>
 
       <Button type="submit" variant="primary" className="w-full">
         Se connecter
       </Button>
+
+      <p className="mt-2 text-center text-sm text-gray-600">
+          Nouveau sur StartUpHub ?{' '}
+          <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+            Inscrivez-vous
+          </Link>
+        </p>
     </form>
   );
 }

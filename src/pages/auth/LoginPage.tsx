@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { Card } from '@/components/common/Card';
 import { LogIn } from 'lucide-react';
@@ -11,14 +10,8 @@ export function LoginPage() {
           <LogIn className="h-12 w-12 text-indigo-600" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Connexion
+          Accédez à votre espace StartUpHub
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
-          Ou{' '}
-          <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-            créez un compte gratuitement
-          </Link>
-        </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
