@@ -2,7 +2,7 @@
 
 Bonjour ! Nous sommes ravis que vous souhaitiez contribuer à ce projet. Votre aide est essentielle pour maintenir sa qualité.  
 
-Veuillez noter que ce projet est publié avec un [Code de Conduite des Contributeurs](https://github.com/MyStaartUp/StartUpHub/blob/main/CODE_OF_CONDUCT.md). En participant à ce projet, vous acceptez de respecter ses termes.
+Veuillez noter que ce projet est publié avec un [Code de Conduite des Contributeurs](./CODE_OF_CONDUCT.md). En participant à ce projet, vous acceptez de respecter ses termes.
 
 ---
 
