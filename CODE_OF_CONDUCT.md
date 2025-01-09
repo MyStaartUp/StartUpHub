@@ -1,4 +1,4 @@
-# Code de Conduite du Pacte des Contributeurs
+# Code de Conduite des Contributeurs
 
 ## Notre Engagement
 
