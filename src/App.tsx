@@ -1,7 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '@/lib/auth/AuthProvider';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
 import { Home } from '@/pages/Home';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { RegisterPage } from '@/pages/auth/RegisterPage';
@@ -12,18 +10,20 @@ import { AboutPage } from '@/pages/AboutPage';
 import { RegisterStartupPage } from '@/pages/RegisterStartupPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { PrivateRoute } from '@/components/auth/PrivateRoute';
+import { AppLayout } from './components/layout/app-layout';
+import { AuthLayout } from './components/layout/auth-layout';
+import { ForgotPassword } from './pages/auth/ForgotPassword';
+import { ProfileSetupPage } from './pages/auth/ProfileSetupPage';
+import { ProfileTypePage } from './pages/auth/ProfileTypePage';
 
 export default function App() {
   return (
     <AuthProvider>
       <Router>
         <div className="min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-grow">
-            <Routes>
+          <Routes>
+            <Route element={<AppLayout />}>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
               <Route path="/investors" element={<InvestorPage />} />
               <Route path="/startups" element={<StartupPage />} />
               <Route path="/startups/:id" element={<StartupDetailsPage />} />
@@ -44,9 +44,16 @@ export default function App() {
                   </PrivateRoute>
                 } 
               />
-            </Routes>
-          </main>
-          <Footer />
+            </Route>
+
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/profile-setup" element={<ProfileSetupPage />} />
+              <Route path="/profile-type" element={<ProfileTypePage />} />
+            </Route>
+          </Routes>
         </div>
       </Router>
     </AuthProvider>

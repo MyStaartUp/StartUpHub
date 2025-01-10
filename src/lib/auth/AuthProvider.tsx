@@ -37,17 +37,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
     if (error) throw error;
 
-    // Si l'inscription réussit mais que data.user est null, on lance une erreur
     if (!data.user) {
       throw new Error("L'inscription a réussi mais les données utilisateur sont manquantes");
     }
 
-    // Création du profil utilisateur
     const { error: profileError } = await supabase
       .from('profiles')
       .insert({
         user_id: data.user.id,
-        type: 'public', // Type par défaut, sera mis à jour lors de la sélection du rôle
+        type: 'public',
       });
     
     if (profileError) throw profileError;
@@ -60,8 +58,32 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (error) throw error;
   };
 
+  const deleteAccount = async () => {
+    if (!user) throw new Error('Aucun utilisateur connecté');
+
+    try {
+      // 1. Supprimer les données du profil
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (profileError) throw profileError;
+
+      // 2. Déconnecter l'utilisateur
+      await signOut();
+
+      // 3. Supprimer la session
+      await supabase.auth.refreshSession();
+      
+    } catch (error) {
+      console.error('Erreur lors de la suppression du compte:', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut, deleteAccount }}>
       {children}
     </AuthContext.Provider>
   );

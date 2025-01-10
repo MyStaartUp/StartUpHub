@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { Card } from '@/components/common/Card';
-import { User, Settings, Bell, Shield } from 'lucide-react';
+import { Button } from '@/components/common/Button';
+import { User, Settings, Bell, Shield, AlertTriangle } from 'lucide-react';
 
 export function DashboardPage() {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, signOut, deleteAccount } = useAuth();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   if (!user) {
     return <div>Chargement...</div>;
   }
+
+  const handleDeleteAccount = async () => {
+    try {
+      await deleteAccount();
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      setDeleteError("Une erreur est survenue lors de la suppression du compte");
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -104,6 +119,52 @@ export function DashboardPage() {
           </Card.Body>
         </Card>
       </div>
+
+      <Card className="mt-8">
+        <Card.Header>
+          <h2 className="text-xl font-semibold text-red-600">Zone dangereuse</h2>
+        </Card.Header>
+        <Card.Body>
+          {showDeleteConfirm ? (
+            <div className="space-y-4">
+              <div className="flex items-center text-red-600">
+                <AlertTriangle className="h-5 w-5 mr-2" />
+                <p className="font-medium">Cette action est irréversible</p>
+              </div>
+              <p className="text-gray-600">
+                La suppression de votre compte entraînera la perte définitive de toutes vos données.
+                Êtes-vous sûr de vouloir continuer ?
+              </p>
+              {deleteError && (
+                <p className="text-red-600">{deleteError}</p>
+              )}
+              <div className="flex space-x-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  Annuler
+                </Button>
+                <Button
+                  variant="primary"
+                  className="bg-red-600 hover:bg-red-700"
+                  onClick={handleDeleteAccount}
+                >
+                  Confirmer la suppression
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              className="text-red-600 border-red-600 hover:bg-red-50"
+              onClick={() => setShowDeleteConfirm(true)}
+            >
+              Supprimer mon compte
+            </Button>
+          )}
+        </Card.Body>
+      </Card>
     </div>
   );
 }
