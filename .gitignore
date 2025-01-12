@@ -21,6 +21,7 @@ supabase/.cache/
 
 # Environment variables
 .env
+.env.local
 
 # IDE and editor settings
 .vscode/*
