@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import Logo from "@/assets/logos/startupHub_logo_prototype.png";
+import Logo from "@/assets/logos/startupHub_logo_final.png";
 
 const links = [
     { text : "A propos" , href : "#" },
@@ -16,12 +16,12 @@ const links = [
 export const AuthLayout = () => {
     return (
         <>
-            <header className="py-2.5 px-2">
-                <div className="max-w-7xl mx-auto">
+            <div className="max-w-6xl">
+                <header className="py-2.5 px-6">
+                    <img src={Logo} alt="StartUpHub Logo" className="h-12"/>
+                </header>
+            </div>
 
-                <img src={Logo} alt="StartUpHub Logo" className="h-12" />
-                </div>
-            </header>
 
             <main className="flex-grow">
                 <Outlet/>
