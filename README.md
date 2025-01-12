@@ -44,8 +44,13 @@ src/
 
 ## Contribution
 
-1. Fork le projet
+Les contributions sont les bienvenues !  
+Avant de commencer, veuillez lire le [Guide de Contribution](./CONTRIBUTING.md) et respecter le [Code de Conduite](./CODE_OF_CONDUCT.md).  
+
+Pour contribuer :
+
+1. **Forker** le projet
 2. Créez une branche (`git checkout -b feature/amélioration`)
 3. Committez vos changements (`git commit -m 'Ajout d'une fonctionnalité'`)
 4. Push vers la branche (`git push origin feature/amélioration`)
-5. Ouvrez une Pull Request
+5. Ouvrez une **Pull Request** sur ce dépot

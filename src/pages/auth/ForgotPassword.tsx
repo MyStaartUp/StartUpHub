@@ -13,7 +13,7 @@ export function ForgotPassword() {
         <div className="flex justify-center">
           <LogIn className="h-12 w-12 text-indigo-600" />
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">
           Reinitialiser votre mot de passe
         </h2>
       </div>

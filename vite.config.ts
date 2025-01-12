@@ -27,7 +27,4 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000, // Limite de taille des chunks
   },
   base: '/',
-  optimizeDeps: {
-    exclude: ['lucide-react'], // Exclusion de dépendances spécifiques
-  },
 });
